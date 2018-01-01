@@ -1,5 +1,21 @@
 <?php
 
+function parse_ini_to_array(){
+  $db = parse_ini_file("../config/dbInfo.ini");
+
+  $database = $db['database'];
+  $dbHost = $db['dbHost'];
+  $dbUser = $db['dbUser'];
+  $dbPassword = $db['dbPassword'];
+
+  return array('database' => $database, 'host'=> $dbHost,
+   'user'=> $dbUser, 'password' => $dbPassword);
+}
+
+$test = parse_ini_to_array();
+echo $test['database'];
+
+/*
 $db = parse_ini_file("../config/dbInfo.ini");
 
 $database = $db['database'];
@@ -39,6 +55,7 @@ while($row = $query->fetch(PDO::FETCH_OBJ)){//fetch() is equivalent to fetch(PDO
 */
 
 //FESTCH AS CLASS
+/*
 class testClass {
   public $ID, $name, $message, $created,
         $entry;//not in table
@@ -82,6 +99,7 @@ $handler->query($sql);
 
 
 //PREPARED STATEMENTS
+/*
 $name = 'dudeman';
 $message = 'howdy';
 
@@ -109,4 +127,5 @@ if($query->rowCount()){
 }
 //else statement with rowcount here allows cleaner handling 
 //if there are no results
+*/
 ?>
