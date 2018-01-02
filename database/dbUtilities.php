@@ -7,11 +7,12 @@ function connect(){
 $db = parse_ini_to_array();
 
     try {
-    $handler = new PDO('mysql:host='.$db['database'].'; dbname='.$db['dbHost'], $db['dbUser'], $dbPassword = $db['dbPassword']);
+    $handler = new PDO('mysql:host='.$db['host'].'; dbname='.$db['database'], $db['user'], $dbPassword = $db['password']);
     $handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
-    echo $e->getMessage();
-    die ('Database Error');
+    echo $e->getMessage().'<br>';
+    //die ('Database Error');
+    $handler = NULL;
     }
 
     return $handler;

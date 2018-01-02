@@ -1,5 +1,34 @@
 <?php
 
+include 'dbUtilities.php';
+
+$db = parse_ini_to_array();
+$database = $db['database'];
+$connection = connect();
+
+if (isset($connection)){
+$connection->query('DROP DATABASE IF EXISTS '.$database);
+echo "Database $database erased<br>";
+}
+
+
+  try {
+    $conn = new PDO('mysql:host='.$db['host'].';' , $db['user'], $dbPassword = $db['password']);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sql = "CREATE DATABASE ". $database;
+    // use exec() because no results are returned
+    $conn->exec($sql);
+    echo "Database $database created successfully<br>";
+    }
+catch(PDOException $e)
+    {
+    echo $sql . "<br>" . $e->getMessage();
+    }
+  
+
+
+/*
 function parse_ini_to_array(){
   $db = parse_ini_file("../config/dbInfo.ini");
 
@@ -14,7 +43,9 @@ function parse_ini_to_array(){
 
 $test = parse_ini_to_array();
 echo $test['database'];
-
+echo $test['host'];
+echo $test['user'];
+echo $test['password'];
 /*
 $db = parse_ini_file("../config/dbInfo.ini");
 

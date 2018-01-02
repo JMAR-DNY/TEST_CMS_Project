@@ -1,13 +1,20 @@
 <?php
 
-require 'dbUtilities.php';
+include 'dbUtilities.php';
 
 $connection = connect();
+
 $databaseInfo = parse_ini_to_array();
 $database = $databaseInfo['database'];//need to replicate to grab other info to create database
 
+//SET the Messages to one variable maybe session which can be displayed in textbox
 //USE parse_ini_to_array to retrieve database info to drop database and create
 //make this whole script into a function which can be called on submit on admin panel
+// https://www.w3schools.com/php/php_mysql_create.asp
+//USE multiple table creation functionality from CART app
+//Lookup create tables with foreign keys to relate the projects to project updates
+//$connection->query('DROP DATABASE IF EXISTS ');
+
 
 
 $connection->query('DROP TABLE IF EXISTS mytable');
@@ -20,17 +27,24 @@ $mysql = "CREATE TABLE mytable (
   eventTime VARCHAR(10),
   PRIMARY KEY (eventID)
   )";
+create_table($mysql, $connection);
 
-$query = $connection->prepare($mysql);
 
 
-if ($query->execute() === TRUE) {
-  echo "mytable created successfully";
-} else {
-  echo "\n error Info: \n";
-  print_r($connection->errorInfo());//outputs error code
-}
+
+
 $connection = NULL;//close connection
 
+
+
+function create_table($mysql, $connection){
+  $query = $connection->prepare($mysql);
+  if ($query->execute() === TRUE) {
+    echo "mytable created successfully";
+  } else {
+    echo "\n error Info: \n";
+    print_r($connection->errorInfo());//outputs error code
+  }
+}
 
 ?>
