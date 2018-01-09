@@ -38,7 +38,7 @@ catch(PDOException $e)
 
 $connection = connect();
 
-$connection->query('DROP TABLE IF EXISTS mytable');
+
 //$query = $handler->query('SELECT * FROM mytable' LIMIT 0);//will set a limit on selects
 
 $mysql = "CREATE TABLE projects (
@@ -46,6 +46,7 @@ $mysql = "CREATE TABLE projects (
   projectTitle VARCHAR(255),
   projectDesc VARCHAR(255),
   projectSlug VARCHAR(255),
+  projectCategory VARCHAR(255),
   projectURL VARCHAR(255),
   projectImage VARCHAR(255),
   projectCreatedAt TIMESTAMP,
