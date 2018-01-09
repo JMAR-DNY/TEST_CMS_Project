@@ -1,26 +1,13 @@
 <?php
-//contains project class info
+//contains project class info//////////////////////////////
 
 include '../database/dbUtilities.php';
-/*
- projectTitle VARCHAR(255),
-  projectDesc VARCHAR(255),
-  projectSlug VARCHAR(255),
-  projectCategory VARCHAR(255),
-  projectURL VARCHAR(255),
-  projectImage VARCHAR(255),
-  */
+
 class project{
 
-    protected $projectID;
-    protected $projectTitle;
-    protected $projectDesc;
-    protected $projectSlug; 
-    protected $projectCategory;
-    protected $projectURL; 
-    protected $projectImage;
-    protected $projectCreatedAt;
-    protected $projectUpdatedAt; 
+    protected $projectID, $projectCreatedAt;
+    public $projectTitle, $projectDesc, $projectSlug, 
+    $projectURL, $projectImage, $projectUpdatedAt; 
 
 public function __construct($data=array()){
     if ( isset( $data['projectID'])) $this->projectID = $data['projectID'];
@@ -34,9 +21,12 @@ public function __construct($data=array()){
     if ( isset( $data['projectUpdatedAt'])) $this->projectUpdatedAt = $data['projectUpdatedAt'];
 }
 
-public function testOutput(){
-    echo  $this->projectTitle; 
-}
+/* storeFormValues - used to pass post values through to constructor */
+  public function storeFormValues ( $params ) {
+
+    $this->__construct( $params );
+  }
+//END StoreFormValues ******************************************
 
 /* CREATE - inserts a project into the projects table in the database */
 public function create(){
@@ -66,6 +56,7 @@ public function create(){
 
 /* READ - reads one project by input ID*/
 public static function read($id){
+
     $connection = connect();
 
     $sql = "SELECT * FROM projects WHERE projectID =$id";
@@ -79,23 +70,43 @@ public static function read($id){
 }
 //END READ *************************************************
 
+/*UPDATE - updates a project in the projects database */
 public function update(){
-    $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-    $sql = "UPDATE articles SET publicationDate=FROM_UNIXTIME(:publicationDate), title=:title, summary=:summary, content=:content WHERE id = :id";
-    $st = $conn->prepare ( $sql );
-    $st->bindValue( ":publicationDate", $this->publicationDate, PDO::PARAM_INT );
-    $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
-    $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
-    $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
-    $st->bindValue( ":id", $this->id, PDO::PARAM_INT );
-    $st->execute();
-    $conn = null;
+    if ( is_null( $this->projectID ) ) trigger_error ( "ID not set", E_USER_ERROR );
+
+    $connection = connect();
+    $sql = "UPDATE projects SET projectTitle=:projectTitle, projectDesc=:projectDesc, 
+    projectSlug=:projectSlug, projectCategory=:projectCategory, projectURL=:projectURL,
+    projectImage=:projectImage, projectUpdatedAt=:projectUpdatedAt WHERE projectID = $this->projectID";
+    $query = $connection->prepare($sql);
+    $query->bindValue(":projectTitle", $this->projectTitle, PDO::PARAM_STR);
+    $query->bindValue(":projectDesc", $this->projectDesc, PDO::PARAM_STR);
+    $query->bindValue(":projectSlug", $this->projectSlug, PDO::PARAM_STR);
+    $query->bindValue(":projectCategory", $this->projectCategory, PDO::PARAM_STR);
+    $query->bindValue(":projectURL", $this->projectURL, PDO::PARAM_STR);
+    $query->bindValue(":projectImage", $this->projectImage, PDO::PARAM_STR);
+    $query->bindValue(":projectUpdatedAt", date("Y/m/d"));
+    $query->execute();
+    $connection = NULL;
 }
+//END UPDATE************************************************
 
+/*DELETE - deletes a project based on ID */
+public function delete() {
+    if ( is_null( $this->projectID ) ) trigger_error ( "ID not set.", E_USER_ERROR );
+ 
+    $connection = connect();
+    $sql= "DELETE FROM projects WHERE projectID = $this->projectID";
+    $query = $connection->prepare ($sql);
+    $query->bindValue( ":projectID ", $this->projectID , PDO::PARAM_INT );
+    $query->execute();
+    $connection = NULL;
+  }
+//END DELETE **************************************************
 
 
 }
-
+//END PROJECT CLASS /////////////////////////////////////////////////////
 
 
 

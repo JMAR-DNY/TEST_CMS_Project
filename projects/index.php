@@ -15,11 +15,15 @@ $temparray = array(
 /*
 $temp = new project($temparray);
 
-$temp->testOutput();
+
 $temp->create();
 */
 
-$temp = project::read(1);
-$temp->testOutput();
+//$temp = project::read(1);
+
+//$temp->projectTitle = 'Hello There';
+////$temp->update();
+///$temp->delete();
+//$temp = project::read(1);
 
 ?>
