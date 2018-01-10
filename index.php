@@ -1,8 +1,7 @@
 <?php 
+require 'config/config.php';
 
-
-require 'partials/header.php';
-require 'partials/nav.php';
+require 'views/nav.php';
 
 echo '<p>' . "Hello" . '</p>';
 

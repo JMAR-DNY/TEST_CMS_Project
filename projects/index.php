@@ -19,8 +19,8 @@ $temp = new project($temparray);
 $temp->create();
 */
 
-//$temp = project::read(1);
-
+$temp = project::readMany();
+print_r($temp);
 //$temp->projectTitle = 'Hello There';
 ////$temp->update();
 ///$temp->delete();

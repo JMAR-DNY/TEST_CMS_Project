@@ -4,7 +4,7 @@
 specified in dbinfo.ini*/
 function connect(){
 
-$db = parse_ini_to_array();
+$db = parse_db_ini();
 
     try {
     $handler = new PDO('mysql:host='.$db['host'].'; dbname='.$db['database'], $db['user'], $dbPassword = $db['password']);
@@ -20,7 +20,7 @@ $db = parse_ini_to_array();
 
 /*This function is to allow access to connection info for other  database functions
 so that only dbinfo.ini needs to be changed when managing connections*/
-function parse_ini_to_array(){
+function parse_db_ini(){
     $db = parse_ini_file("../config/dbInfo.ini");
   
     $database = $db['database'];

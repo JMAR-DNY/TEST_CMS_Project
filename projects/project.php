@@ -70,6 +70,29 @@ public static function read($id){
 }
 //END READ *************************************************
 
+/* ReadMany - reads multiple rows*/
+public static function readMany($order="projectUpdatedAt DESC"){
+    $connection = connect();
+    $sql = "SELECT * FROM projects
+            ORDER BY " . $order;
+
+    $query = $connection->prepare($sql);
+    //$query->bindValue( ":numRows", $numRows, PDO::PARAM_INT );
+    $query->execute();
+    $list = array();
+
+    while ( $row = $query->fetch() ) {
+        $project = new Project( $row );
+        $list[] = $project;
+      }
+
+      $sql = "SELECT FOUND_ROWS() AS totalRows";
+      $totalRows = $connection->query( $sql )->fetch();
+      $connection = NULL;
+      return ( array ( "results" => $list, "totalRows" => $totalRows[0] ) );
+}
+//END READMANY ************************************************
+
 /*UPDATE - updates a project in the projects database */
 public function update(){
     if ( is_null( $this->projectID ) ) trigger_error ( "ID not set", E_USER_ERROR );

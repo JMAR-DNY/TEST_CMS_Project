@@ -1,8 +1,8 @@
-<link rel="stylesheet" href="../resources/css/style.css">
+
 <?php
 //ADMIN
-
+require '../config/config.php';
 //echo 'this is the admin section';
-require '../partials/header.php';
-require 'partials/login.php';
+//require '../partials/header.php';
+require '../views/admin/login.php';
 ?>
