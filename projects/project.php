@@ -1,9 +1,9 @@
 <?php
 //contains project class info//////////////////////////////
 
-include '../database/dbUtilities.php';
+include '/database/dbUtilities.php';
 
-class project{
+class Project{
 
     protected $projectID, $projectCreatedAt;
     public $projectTitle, $projectDesc, $projectSlug, 
