@@ -3,6 +3,7 @@
 include 'dbUtilities.php';
 
 $db = parse_db_ini();
+
 $database = $db['database'];
 
 $connection = connect();
